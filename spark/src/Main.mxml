@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   xmlns:knob="com.aaronhardy.knob.*"
+			   minWidth="1024" minHeight="768"
+			   creationComplete="setValueSliderLabels(event);">
+	<fx:Script>
+		<![CDATA[
+			import com.aaronhardy.knob.KnobSkin;
+			
+			protected function setValueSliderLabels(event:Event):void
+			{
+				var labels:Array = [];
+				labels.push(Math.ceil(minSlider.value));
+				labels.push(Math.floor(maxSlider.value));
+				valueSlider.labels = labels;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:HorizontalLayout/>
+	</s:layout>
+	
+		<knob:Knob id="knob" 
+				   skinClass="com.aaronhardy.knob.KnobSkin"
+				   zeroAngle="{zeroAngleSlider.value}" 
+				   maxRotation="{maxRotationSlider.value}" 
+				   minimum="{minSlider.value}"
+				   maximum="{maxSlider.value}" 
+				   value="{valueSlider.value}"
+				   snapToCursor="{snapToCursorCheckBox.selected}"
+				   allowLooping="{allowLoopingCheckBox.selected}"
+				   valueCommit="{valueSlider.value = knob.value}"
+				   width="400" height="400"/>
+		
+	<mx:Form>
+		<mx:FormItem label="Value">
+			<mx:HSlider id="valueSlider"
+						value="0" 
+						minimum="{minSlider.value}" 
+						maximum="{maxSlider.value}"
+						liveDragging="true" 
+						labelOffset="0"/>
+		</mx:FormItem>
+		<mx:FormItem label="Minimum">
+			<mx:HSlider id="minSlider"
+						value="0" minimum="-500" maximum="0"
+						labels="[-500,0]" liveDragging="true" 
+						labelOffset="0"
+						change="setValueSliderLabels(event);"/>
+		</mx:FormItem>
+		<mx:FormItem label="Maximum">
+			<mx:HSlider id="maxSlider"
+						value="100" minimum="1" maximum="500"
+						labels="[1,500]" liveDragging="true" 
+						labelOffset="0"
+						change="setValueSliderLabels(event);"/>
+		</mx:FormItem>
+		<mx:FormItem label="Zero Angle">
+			<mx:HSlider id="zeroAngleSlider" 
+						value="0" minimum="-180" maximum="180" 
+						labels="[-180,180]" liveDragging="true" 
+						labelOffset="0"/>
+		</mx:FormItem>
+		<mx:FormItem label="Max Rotation">
+			<mx:HSlider id="maxRotationSlider"
+						value="180" minimum="1" maximum="360" 
+						labels="[1,360]" liveDragging="true" 
+						labelOffset="0"/>
+		</mx:FormItem>
+		<mx:FormItem label="Snap to Cursor">
+			<mx:CheckBox id="snapToCursorCheckBox"/>
+		</mx:FormItem>
+		<mx:FormItem label="Allow Looping">
+			<mx:CheckBox id="allowLoopingCheckBox"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:Application>
